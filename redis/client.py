@@ -296,7 +296,7 @@ class StrictRedis(object):
             bool
         ),
         string_keys_to_dict(
-            'BITCOUNT BITPOS DECRBY DEL GETBIT HDEL HLEN INCRBY LINSERT LLEN '
+            'BITCOUNT BITPOS DECRBY DEL GETBIT HDEL HLEN NTDEL INCRBY LINSERT LLEN '
             'LPUSHX PFADD PFCOUNT RPUSHX SADD SCARD SDIFFSTORE SETBIT '
             'SETRANGE SINTERSTORE SREM STRLEN SUNIONSTORE ZADD ZCARD '
             'ZLEXCOUNT ZREM ZREMRANGEBYLEX ZREMRANGEBYRANK ZREMRANGEBYSCORE',
@@ -1971,6 +1971,29 @@ class StrictRedis(object):
         with Lua scripts.
         """
         return Script(self, script)
+    
+    def ntget(self, name, key):
+        "Return the value of ``key`` within ``name``"
+        return self.execute_command('NTGET', name, key)
+    
+    def ntxset(self, name, key, value):
+        """
+        Set ``key`` to ``value`` within ``name`` if ``name`` doesn't already exist.
+        Returns 1 if NTXSET created a new field, otherwise 0
+        """
+        return self.execute_command('NTXSET', name, key, value)
+    
+    def ntset(self, name, key, value):
+        """
+        Set ``key`` to ``value`` within ``name``
+        Returns 1 if NTSET created a new field, otherwise 0
+        """
+        return self.execute_command('NTSET', name, key, value)
+    
+    def ntdel(self, name, *keys):
+        "Delete ``keys`` from ``name``"
+        return self.execute_command('NTDEL', name, *keys)
+
 
 
 class Redis(StrictRedis):
