@@ -1909,6 +1909,7 @@ class StrictRedis(object):
         args = list_or_args(keys, args)
         return self.execute_command('HMGET', name, *args)
 
+
     def hvals(self, name):
         "Return the list of values within hash ``name``"
         return self.execute_command('HVALS', name)
@@ -1976,19 +1977,21 @@ class StrictRedis(object):
         "Return the value of ``key`` within ``name``"
         return self.execute_command('NTGET', name, key)
     
-    def ntxset(self, name, key, value):
+    def ntzadd(self, name, key, value):
         """
         Set ``key`` to ``value`` within ``name`` if ``name`` doesn't already exist.
         Returns 1 if NTXSET created a new field, otherwise 0
         """
-        return self.execute_command('NTXSET', name, key, value)
+        return self.execute_command('NTZADD', name, key, value)
     
-    def ntset(self, name, key, value):
+    def ntadd(self, name, key, value):
         """
         Set ``key`` to ``value`` within ``name``
         Returns 1 if NTSET created a new field, otherwise 0
         """
-        return self.execute_command('NTSET', name, key, value)
+        return self.execute_command('NTADD', name, key, value)
+    
+    
     
     def ntdel(self, name, *keys):
         "Delete ``keys`` from ``name``"
