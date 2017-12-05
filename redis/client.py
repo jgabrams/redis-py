@@ -1991,13 +1991,15 @@ class StrictRedis(object):
         """
         return self.execute_command('NTADD', name, key, value)
     
-    
-    
     def ntdel(self, name, *keys):
         "Delete ``keys`` from ``name``"
         return self.execute_command('NTDEL', name, *keys)
 
-
+    def unlink(self, name):
+        """
+        Unlink ``name``
+        """
+        return self.execute_command('UNLINK', name)
 
 class Redis(StrictRedis):
     """
